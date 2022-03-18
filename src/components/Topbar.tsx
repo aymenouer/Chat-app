@@ -11,10 +11,10 @@ export default function Topbar() {
       <Container>
         <Toolbar disableGutters>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Avatar alt="Aymen" src="img.jpg" >A</Avatar>
+            <Avatar alt="Aymen" src="img.jpg" />
 
             <Button key="Aymen" sx={{ color: "white" }}>
-            Aymen Ouerghui
+              Aymen Ouerghui
             </Button>
           </Box>
         </Toolbar>
