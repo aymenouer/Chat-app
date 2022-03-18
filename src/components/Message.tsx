@@ -2,14 +2,28 @@ import styled from "@emotion/styled";
 import Avatar from "@mui/material/Avatar";
 import TimeAgo from "react-timeago";
 import Linkify from "react-linkify";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { LinkPreview } from "@dhaiwat10/react-link-preview";
-interface MessageType {
-  message: string;
-  url: string;
-  createdAt: Date;
-}
+import {  toast } from 'react-toastify';
+import { useMessages } from "../store/useMessages";
+import { MessageType } from "../model/message";
+
 
 export default function Message(props: MessageType) {
+  const { removeMessage, messages } = useMessages();
+
+
+
+  const DeleteMessage =()=>{
+
+    removeMessage(props.id);
+  toast.success("Message Deleted!");
+  localStorage.setItem("messages", JSON.stringify(messages.filter(function( obj:MessageType ) {
+    return obj.id !== props.id;
+})));
+  
+  
+  }
   return (
     <>
       <Messages>
@@ -21,8 +35,10 @@ export default function Message(props: MessageType) {
           />
 
           <MessageText>
+          
             <Linkify>{props.message}</Linkify>
           </MessageText>
+          <DeleteIcon onClick={()=>{DeleteMessage()}} style={{color:"red",cursor:"pointer"}} />
         </MessageTop>
         <MessageBottom>
           <TimeAgo date={props.createdAt} />
@@ -38,9 +54,11 @@ export default function Message(props: MessageType) {
             />
 
             <MessageText>
+
               <LinkPreview url={props.url} width="300px" />{" "}
             </MessageText>
-          </MessageTop>
+            <DeleteIcon onClick={()=>{DeleteMessage()}} style={{color:"red",cursor:"pointer"}} />
+           </MessageTop>
           <MessageBottom>
             <TimeAgo date={props.createdAt} />
           </MessageBottom>
