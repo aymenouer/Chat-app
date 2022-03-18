@@ -3,14 +3,10 @@ import { Alert, Box, Button, TextField } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import styled from "@emotion/styled";
 import Snackbar from "@mui/material/Snackbar";
-import Slide, { SlideProps } from "@mui/material/Slide";
 import Message from './../components/Message';
 import Topbar from "../components/Topbar";
+import Fade from '@mui/material/Fade';
 
-type TransitionProps = Omit<SlideProps, "direction">;
-function TransitionUp(props: TransitionProps) {
-  return <Slide {...props} direction="up" />;
-}
 interface MessageType {
   message: string;
   url: string;
@@ -24,9 +20,6 @@ export default function Messanger() {
   const scrollRef: any = useRef();
   var linkify = require('linkify-it')();
   const [open, setOpen] = useState(false);
-  const [transition, setTransition] = useState<
-    React.ComponentType<TransitionProps> | undefined
-  >(undefined);
 
   const handleClose = () => {
     setOpen(false);
@@ -65,12 +58,13 @@ export default function Messanger() {
       anchorOrigin={{ vertical: 'bottom',
       horizontal: 'center', }}
               open={open}
+              sx={{ top: { sm: 570 } }}
               onClose={handleClose}
-              TransitionComponent={transition}
-              key={transition ? transition.name : ""}
+              TransitionComponent={Fade}
+              key="Fade"
               autoHideDuration={1000}
             >
-              <Alert variant="filled" severity="info" sx={{ width: "100%" }}>
+              <Alert variant="filled" severity="info" sx={{ width: "100%"}}>
                 Typing....
               </Alert>
             </Snackbar>
@@ -79,7 +73,7 @@ export default function Messanger() {
               placeholder="Write something..."
               onChange={(e) => {
                 setNewMessage(e.target.value);
-                setTransition(() => TransitionUp);
+       
                 setOpen(true);
               }}
               value={newMessage}
