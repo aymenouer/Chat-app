@@ -1,21 +1,28 @@
 import { useEffect, useRef, useState } from "react";
-import { Alert, Button, TextField } from "@mui/material";
+import { Alert, Box, Button, TextField } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import styled from "@emotion/styled";
 import Snackbar from "@mui/material/Snackbar";
 import Slide, { SlideProps } from "@mui/material/Slide";
 import Message from './../components/Message';
+import Topbar from "../components/Topbar";
 
 type TransitionProps = Omit<SlideProps, "direction">;
 function TransitionUp(props: TransitionProps) {
   return <Slide {...props} direction="up" />;
 }
+interface MessageType {
+  message: string;
+  url: string;
+  createdAt:Date
+}
 
 export default function Messanger() {
   const [newMessage, setNewMessage] = useState("");
-  const [messages, setMessages] = useState<String[]>([]);
+  // @ts-ignore
+  const [messages, setMessages] = useState<MessageType[]>(JSON.parse(localStorage.getItem("messages")) || []);
   const scrollRef: any = useRef();
-
+  var linkify = require('linkify-it')();
   const [open, setOpen] = useState(false);
   const [transition, setTransition] = useState<
     React.ComponentType<TransitionProps> | undefined
@@ -26,11 +33,11 @@ export default function Messanger() {
   };
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-
-    let array: String[] = messages;
-
-    array.push(newMessage);
-    setMessages(messages);
+    let array: MessageType[] = messages;
+    let createdAt =new Date();
+    array.push({message:newMessage,url:linkify.match(newMessage) ? linkify.match(newMessage)[0].url : "" ,createdAt});
+    setMessages(array);
+    localStorage.setItem("messages", JSON.stringify(array))
     setNewMessage("");
   };
   useEffect(() => {
@@ -38,12 +45,18 @@ export default function Messanger() {
   }, [newMessage]);
   return (
     <Messenger>
-      <ChatBox>
+      <Box sx={{ boxShadow: 3,  width: "50%",
+  height: "90%",
+  backgroundColor:"white",
+  borderRadius:"20px", }} >
+
+
+        <Topbar/>
         <Container>
           <ChatBoxTop>
             {messages.map((m) => (
               <div ref={scrollRef}>
-                <Message message={m} />
+                <Message createdAt={m.createdAt} message={m.message} url={m.url}  />
               </div>
             ))}
           </ChatBoxTop>
@@ -84,26 +97,28 @@ export default function Messanger() {
             </Button>
           </ChatBoxBottom>
         </Container>
-      </ChatBox>
+</Box>
 
     </Messenger>
   );
 }
 const Messenger = styled.div({
   display: "flex",
-  height: "calc(100vh - 70px)",
+  height: "calc(100vh - 20px)",
+  justifyContent:"center",
+  alignItems:"center",
+  backgroundColor:"#1877f2",
+  borderRadius:"20px"
 });
-const ChatBox = styled.div({
-  width: "100%",
-  height: "100%",
-});
+
+
 const Container = styled.div({
   display: "flex",
   flexDirection: "column",
   justifyContent: "space-between",
   position: "relative",
   padding: "10px",
-  height: "100%",
+  height: "90%",
 });
 const ChatBoxTop = styled.div({
   height: "100%",

@@ -1,22 +1,55 @@
 
 import styled from "@emotion/styled";
 import Avatar from '@mui/material/Avatar';
-import ReactTimeAgo from 'react-time-ago'
+import TimeAgo from 'react-timeago'
 import Linkify from 'react-linkify';
+import { LinkPreview } from "@dhaiwat10/react-link-preview";
 interface MessageType {
-  message: String;
+  message: string;
+  url: string;
+  createdAt:Date
 }
+
 export default function Message(props:MessageType) {
+
   return (
+    <>
     <Messages>
         <MessageTop >
-        <Avatar sx={{marginRight:"10px" }}  >AO</Avatar>
+        <Avatar src="image.jpg" alt="aymenface" sx={{marginRight:"10px" }}  />
         
-           <MessageText><Linkify>{props.message}</Linkify></MessageText>
+           <MessageText>
+             <Linkify > 
+             
+             {props.message}</Linkify>
+           
+           
+           </MessageText>
+        
         </MessageTop>
-        <MessageBottom >sss</MessageBottom>
+        <MessageBottom ><TimeAgo  date={props.createdAt} /></MessageBottom>
 
     </Messages>
+    {props.url ? ( 
+
+<Messages>
+        <MessageTop >
+        <Avatar src="image.jpg" alt="aymenface" sx={{marginRight:"10px" }}  />
+        
+        
+      <MessageText><LinkPreview url={props.url} width='300px' />  </MessageText>
+        </MessageTop>
+        <MessageBottom ><TimeAgo  date={props.createdAt} /></MessageBottom>
+
+    </Messages>
+
+
+    ) : <> </>}
+    
+    
+    </>
+      
+    
   )
 
 
@@ -24,7 +57,6 @@ export default function Message(props:MessageType) {
 const Messages = styled.div({
   display: "flex",
   flexDirection:"column",
-  marginTop:"20px",
   alignItems:"flex-end"
 });
 const MessageTop = styled.div({
@@ -33,8 +65,7 @@ const MessageTop = styled.div({
 
 });
 const MessageBottom = styled.div({
-  fontSize:"12px",
-  marginTop:"10px"
+  fontSize:"12px"
 
 });
 const MessageText = styled.p({
