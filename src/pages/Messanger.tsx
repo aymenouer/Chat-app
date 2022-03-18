@@ -58,7 +58,7 @@ export default function Messanger() {
       anchorOrigin={{ vertical: 'bottom',
       horizontal: 'center', }}
               open={open}
-              sx={{ top: { sm: 570 } }}
+              sx={{ top: { sm: "calc(75vh - 130px)" } }}
               onClose={handleClose}
               TransitionComponent={Fade}
               key="Fade"
