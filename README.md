@@ -7,7 +7,7 @@
 
 :star: Star on GitHub — it motivates Me a lot!
 
-[Chat-app](https://serene-carson-7270c4.netlify.app/) is messsanger app where you send messages , you can delete it , you can preview a link in the message and all your messages are stored in localstorage
+[Chat-app](https://serene-carson-7270c4.netlify.app/) is messenger app where you send messages , you can delete it , you can preview a link in the message and all your messages are stored in local storage
 
 ---
 <h3>Technologies:</h3>
