@@ -18,7 +18,6 @@
 |Messanger|
 | --- | 
 |![Untitled](https://user-images.githubusercontent.com/49178153/160254388-089e42d2-b15b-4791-983c-bcf86442d3ff.png)
-|
 
 ## [Demo 💥](https://serene-carson-7270c4.netlify.app/)
 
